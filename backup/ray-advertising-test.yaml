@@ -1,0 +1,237 @@
+type: collection.insomnia.rest/5.0
+name: Ray Advertising Test
+meta:
+  id: wrk_a4ebdbae37444753a7e42523b1c34cef
+  created: 1751993965826
+  modified: 1751993965826
+collection:
+  - name: App User
+    meta:
+      id: fld_38eb8592874b47beb3301714bc34efee
+      created: 1751993980859
+      modified: 1751993980859
+      sortKey: -1751993980859
+    children:
+      - url: " {{ _.base_url }}/admin/app-users"
+        name: Get All
+        meta:
+          id: req_99699398438644a78f941dd97b5d4ebe
+          created: 1751993983777
+          modified: 1752010866913
+          isPrivate: false
+          sortKey: -1751993983777
+        method: GET
+        parameters:
+          - id: pair_bd52c3ab96904e939f45b180a3055791
+            name: page
+            value: "1"
+            disabled: false
+          - id: pair_804fb28b201943adbaf971167722cb9c
+            name: limit
+            value: "10"
+            disabled: false
+          - id: pair_8258863490c64b6486f7575c373b70bc
+            name: sortOrder
+            disabled: true
+          - id: pair_8cdc08f779f14347b57854a0cf3e29f9
+            name: sortBy
+            disabled: true
+          - id: pair_099f1ad03644454b8916693717e65f87
+            name: searchText
+            value: user@mail.com
+            disabled: true
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+            id: pair_d0502a9bee8d413283ad4d418262bfd7
+          - id: pair_deca947d35e3460688e06d88e5b2c72d
+            name: Accept
+            value: application/json
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: " {{ _.base_url }}/admin/app-users/0197ec11-cfe5-70f2-97e7-9ab43e747079"
+        name: Find
+        meta:
+          id: req_a8797700f5c84dbf8169c540f56cdf3a
+          created: 1751997077410
+          modified: 1752012324416
+          isPrivate: false
+          sortKey: -1750127484398
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+            id: pair_e8666b84a73941eda39746973dda187b
+          - id: pair_f3e5c6249ca940cbb4da319e8a06f40e
+            name: Accept
+            value: application/json
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: " {{ _.base_url }}/admin/app-users"
+        name: Create
+        meta:
+          id: req_572c7deeeeda4f6db284d9389bf421df
+          created: 1751997106101
+          modified: 1752010890137
+          isPrivate: false
+          sortKey: -1749194234708.5
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"email": "user7@mail.com",
+            	"password": "password",
+            	"firstName": "user",
+            	"lastName": "seven"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.1.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: " {{ _.base_url }}/admin/app-users/0197ec11-cfe5-70f2-97e7-9ab43e747079"
+        name: Delete
+        meta:
+          id: req_f324d1d8c23542ee92aedecb1bfd35d2
+          created: 1751997154704
+          modified: 1752012291521
+          isPrivate: false
+          sortKey: -1748494297441.375
+        method: DELETE
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: " {{ _.base_url }}/admin/app-users/0197ec0e-75dd-763f-b346-c404cd3e97d0"
+        name: Update
+        meta:
+          id: req_ff0b7b55fb0d4dda89bdd25f0a0e703d
+          created: 1751997849082
+          modified: 1752012077180
+          isPrivate: false
+          sortKey: -1748960922286.125
+        method: PATCH
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"email": "user77@mail.com",
+            	"password": "password",
+            	"firstName": "user",
+            	"lastName": "seven edited"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.1.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Test
+    meta:
+      id: fld_37310298de064511959f00cee74cc223
+      created: 1751995785057
+      modified: 1751995785057
+      sortKey: -1751995785057
+    children:
+      - url: "{{ _.base_url }}/test/db/migrate"
+        name: Migrate Database
+        meta:
+          id: req_461f2012387241369b97a40ebac86cab
+          created: 1751995795922
+          modified: 1751997047687
+          isPrivate: false
+          sortKey: -1751995795922
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+            id: pair_8184e6aca7c347d7813afb960079455e
+          - id: pair_38160c18c0f94e9ba425ca1770a31f9a
+            name: Accept
+            value: application/json
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: " {{ _.base_url }}/test/db/refresh-migration"
+        name: Refresh Migration
+        meta:
+          id: req_dec37e09a42f4587b6220ffe018504a0
+          created: 1751996185267
+          modified: 1751998157577
+          isPrivate: false
+          sortKey: -1751994889849.5
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+            id: pair_b76bc78a81de4b2b9299fad2ca331752
+          - id: pair_a1c795cbd6f348d09d01b853647da079
+            name: Accept
+            value: application/json
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_e77ab0115c181156fe58aa48ca862a5b9ce17a13
+    created: 1751993965832
+    modified: 1751993965832
+environments:
+  name: Base Environment
+  meta:
+    id: env_e77ab0115c181156fe58aa48ca862a5b9ce17a13
+    created: 1751993965830
+    modified: 1751996454735
+    isPrivate: false
+  data:
+    base_url: http://localhost:5000/api/v1

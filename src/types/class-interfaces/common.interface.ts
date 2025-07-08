@@ -1,5 +1,8 @@
 import { Response } from "express";
 import { Transaction } from "sequelize";
+import { TMockPaginationResult, TPaginationResult } from "../types/common.type";
+import { TAppUser, TAppUserWithTimestamps, TStoreAppUser, TStoreAppUserData, TUpdateAppUserData } from "../types/app.user.type";
+import { AppUserModel } from "../../db/rdb/models";
 
 export type SuccessResponse = {
     message: string,
@@ -12,9 +15,10 @@ export type ErrorResponse = {
     statusCode: number,
 }
 
+// Middleware doesn't work when controller is a class. Need to see this later.
 export interface ICommonControllerInterface {
-    getAll(): Response<SuccessResponse|ErrorResponse>,
     getPaginated(): Response<SuccessResponse|ErrorResponse>,
+    getAll(): Response<SuccessResponse|ErrorResponse>,
     findById(id: string): Response<SuccessResponse|ErrorResponse>,
     existsById(id: string): any,
     findByIds(ids: string[]): any,
@@ -24,26 +28,48 @@ export interface ICommonControllerInterface {
     hardDeleteById(id: string, transaction?: Transaction): Response<SuccessResponse|ErrorResponse>,
 };
 
+// For use with Postgres.
 export interface ICommonServiceInterface {
-    getAll(select: string[]|null): any,
-    getPaginated(page: number, limit: number, sortOrder: string, sortBy: string, searchText: string|null): any,
-    findById(id: string): any,
-    existsById(id: string): any,
-    findByIds(ids: string[]): any,
-    create(data: any, transaction?: Transaction): any,
-    update(data: any, id: string, transaction?: Transaction): any,
-    delete(id: string, transaction?: Transaction): any,
-    hardDeleteById(id: string, transaction?: Transaction): any,
+    getPaginated(page: number, limit: number, sortOrder: string, sortBy: string, searchText: string|null): Promise<TPaginationResult<AppUserModel>>,
+    getAll(select: string[]|null): Promise<TAppUser[]>,
+    findById(id: string): Promise<TAppUser>,
+    existsById(id: string): Promise<number>,
+    findByIds(ids: string[]): Promise<TAppUser[]>,
+    create(data: TStoreAppUserData, transaction?: Transaction): Promise<TAppUser>,
+    update(data: TUpdateAppUserData, id: string, transaction?: Transaction): Promise<TAppUser>,
+    delete(id: string, transaction?: Transaction): Promise<TAppUser>,
+    hardDeleteById(id: string, transaction?: Transaction): Promise<TAppUser>,
 };
 
 export interface ICommonRepositoryInterface {
-    getAll(select: string[]|null): any,
-    getPaginated(page: number, limit: number, sortOrder: string, sortBy: string, searchText: string|null): any,
-    findById(id: string): any,
-    existsById(id: string): any,
-    findByIds(ids: string[]): any,
-    create(data: any, transaction?: Transaction): any,
-    update(data: any, id: string, transaction?: Transaction): any,
-    delete(id: string, transaction?: Transaction): any,
-    hardDeleteById(id: string, transaction?: Transaction): any,
+    getPaginated(page: number, limit: number, sortOrder: string, sortBy: string, searchText: string|null): Promise<TPaginationResult<AppUserModel>>,
+    getAll(select: string[]|null): Promise<TAppUser[]>,
+    findById(id: string): Promise<TAppUser>,
+    existsById(id: string): Promise<number>,
+    findByIds(ids: string[]): Promise<TAppUser[]>,
+    create(data: TStoreAppUser, transaction?: Transaction): Promise<TAppUser>,
+    update(data: TUpdateAppUserData, id: string, transaction?: Transaction): Promise<TAppUser>,
+    delete(id: string, transaction?: Transaction): Promise<TAppUser>,
+    hardDeleteById(id: string, transaction?: Transaction): Promise<TAppUser>,
+};
+
+// For use with mock database/in-memory object.
+export interface IMockCommonServiceInterface {
+    getPaginated(page: number, limit: number): Promise<TMockPaginationResult>,
+    getAll(): Promise<TAppUserWithTimestamps[]>,
+    findById(id: string): Promise<TAppUserWithTimestamps>,
+    existsById(id: string): Promise<boolean>,
+    create(data: Omit<TAppUserWithTimestamps, 'id'|'deletedAt'|'deletedBy'|'avatarUrl'|'createdAt'|'updatedAt' >, transaction?: Transaction): Promise<TAppUserWithTimestamps>,
+    update(data: TAppUserWithTimestamps, id: string, transaction?: Transaction): Promise<TAppUserWithTimestamps>,
+    delete(id: string, transaction?: Transaction): Promise<TAppUserWithTimestamps>,
+};
+
+export interface IMockCommonRepositoryInterface {
+    getPaginated(page: number, limit: number): Promise<TMockPaginationResult>,
+    getAll(): Promise<TAppUserWithTimestamps[]>,
+    findById(id: string): Promise<TAppUserWithTimestamps>,
+    existsById(id: string): Promise<boolean>,
+    create(data: TAppUserWithTimestamps, transaction?: Transaction): Promise<TAppUserWithTimestamps>,
+    update(data: TAppUserWithTimestamps, id: string, transaction?: Transaction): Promise<TAppUserWithTimestamps>,
+    delete(id: string, transaction?: Transaction): Promise<TAppUserWithTimestamps>,
 };

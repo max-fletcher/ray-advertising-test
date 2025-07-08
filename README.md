@@ -1,5 +1,9 @@
 # Ray Advertising Test
 
+## To the interviewers
+The "backup" folder contains the insomnia collection you can use to test the APIs. You need not bother with the Test folder in that collection. Just hit the APIs under AppUsers and it should work.
+I didn't use redis or node-cache to store data as initially, it seemed simpler to use an object and use that as a mock DB. However, I later realized that it forced me to veer off of established ES6 standards so I hope that will not cause problems. I am well aware of what the ES6 standards are and how to use them. I hope I will be forgiven for that for now.
+
 ## Contributing Guidelines
 
 Welcome to the **Ray Advertising Test**! We appreciate your interest in contributing to our project. To maintain a high standard of quality and ensure smooth collaboration, please adhere to the following rules and regulations when contributing to this project.

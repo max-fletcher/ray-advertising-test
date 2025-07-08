@@ -19,3 +19,13 @@ export type TPaginationResult<T extends Model> = {
   prevPage: number | null;
   records: T[];
 };
+
+export type TMockPaginationResult = {
+  page: number;
+  pageSize: number;
+  totalPages: number;
+  totalCount: number;
+  nextPage: number | null;
+  prevPage: number | null;
+  records: any[];
+};

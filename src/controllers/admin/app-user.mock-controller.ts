@@ -1,12 +1,12 @@
 import { Response } from 'express';
 import { CustomException } from '../../errors/CustomException.error';
-import { AppUserService } from '../../services/app-user.services';
 import { IAuthenticatedRequest } from '../../types/interfaces/authenticate.interface';
-import { BadRequestException } from '../../errors/BadRequestException.error';
+// import { BadRequestException } from '../../errors/BadRequestException.error';
 import { NotFoundException } from '../../errors/NotFoundException.error';
 import { ErrorResponse, SuccessResponse } from '../../types/class-interfaces/common.interface';
+import { AppUserMockService } from '../../services/app-use.mock-services';
 
-const appUserService = new AppUserService();
+const appUserService = new AppUserMockService();
 
 /**
  * Get all data.
@@ -19,17 +19,11 @@ export async function getAllAppUser(req: IAuthenticatedRequest, res: Response) :
     // Get all params for data fetching
     const page = req.query.page ? Number(req.query.page) : null
     const limit = req.query.limit ? Number(req.query.limit) : null
-    const sortOrder = req.query.sortOrder ? req.query.sortOrder.toString() : 'ASC'
-    const sortBy = req.query.sortBy ? req.query.sortBy.toString() : 'createdAt'
-    const searchText = req.query.searchText && req.query.searchText !== '' ? req.query.searchText.toString() : null
-
-    if(sortOrder && sortOrder !== 'ASC' && sortOrder !== 'DESC')
-      throw new BadRequestException('Sort order has to be ASC or DESC')
 
     // If limit and offset exists, get paginated data, else get all data
     let appUsers = null
     if(page && limit)
-      appUsers = await appUserService.getPaginated(page, limit, sortOrder, sortBy, searchText);
+      appUsers = await appUserService.getPaginated(page, limit);
     else
       appUsers = await appUserService.getAll();
 
@@ -39,7 +33,7 @@ export async function getAllAppUser(req: IAuthenticatedRequest, res: Response) :
       data: appUsers,
     });
   } catch (error) {
-    // console.log('getAllAppUser', error)
+    console.log('getAllAppUser', error)
     if (error instanceof CustomException) {
       return res.status(error.statusCode).json({
         message: error.message,
@@ -64,7 +58,7 @@ export async function getSingleAppUser(req: IAuthenticatedRequest, res: Response
   try {
     // Get id from params and find data
     const appUserId = req.params.id
-    const appUser = await appUserService.findById(appUserId, null);
+    const appUser = await appUserService.findById(appUserId);
 
     // Throw exception if data doesn't exist
     if(!appUser)
@@ -78,7 +72,7 @@ export async function getSingleAppUser(req: IAuthenticatedRequest, res: Response
       data: appUser,
     });
   } catch (error) {
-    // console.log('getSingleAllAppUser', error)
+    console.log('getSingleAllAppUser', error)
     if (error instanceof CustomException) {
       return res.status(error.statusCode).json({
         message: error.message,
@@ -114,7 +108,7 @@ export async function createAppUser(req: IAuthenticatedRequest, res: Response) :
 
     throw new CustomException('Something went wrong! Please try again.', 500)
   } catch (error) {
-    // console.log('createAppUser', error)
+    console.log('createAppUser', error)
     if (error instanceof CustomException) {
       return res.status(error.statusCode).json({
         message: error.message,
@@ -139,7 +133,7 @@ export async function updateAppUser(req: IAuthenticatedRequest, res: Response) :
   try {
     // Get id from params, and check if the record exists
     const appUserId = req.params.id
-    const appUser = await appUserService.findById(appUserId, ['id', 'deletedAt'])
+    const appUser = await appUserService.findById(appUserId)
     if(!appUser)
       throw new NotFoundException('App user not found.')
     if(appUser.deletedAt)
@@ -151,17 +145,17 @@ export async function updateAppUser(req: IAuthenticatedRequest, res: Response) :
 
     if(response){
       // Get updated data
-      const appUser = await appUserService.findById(appUserId);
+      // const appUser = await appUserService.findById(appUserId);
       return res.json({
         message: 'App user updated successfully!',
         statusCode: 200,
-        data: appUser,
+        data: response,
       });
     }
 
     throw new CustomException('Something went wrong! Please try again.', 500)
   } catch (error) {
-    // console.log('updateAppUser', error);
+    console.log('updateAppUser', error);
     if (error instanceof CustomException) {
       return res.status(error.statusCode).json({
         message: error.message,
@@ -205,7 +199,7 @@ export async function deleteAppUser(req: IAuthenticatedRequest, res: Response) :
 
     throw new CustomException('Something went wrong! Please try again.', 500)
   } catch (error) {
-    // console.log('deleteAppUser', error);
+    console.log('deleteAppUser', error);
     if (error instanceof CustomException) {
       return res.status(error.statusCode).json({
         message: error.message,
