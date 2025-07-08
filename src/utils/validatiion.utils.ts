@@ -13,8 +13,8 @@ export const validateRequestBody =
       rollbackMultipleFileLocalUpload(req);
       if (error instanceof z.ZodError) {
         res.status(422).json({
-          status: 'error',
           message: 'Validation failed',
+          statusCode: 422,
           errors: error.issues.map((e) => ({
             path: e.path.join('.'),
             message: e.message,
@@ -22,8 +22,8 @@ export const validateRequestBody =
         });
       } else {
         res.status(500).json({
-          status: 'error',
           message: 'Internal server error',
+          statusCode: 500,
         });
       }
     }

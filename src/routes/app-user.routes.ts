@@ -7,6 +7,7 @@ import { createAppUserSchema, updateAppUserSchema } from '../schema/app-user.sch
 const AppUserRouter = express.Router();
 // const jwtMiddleware = new JwtMiddleware();
 
+// Defining routes
 AppUserRouter.get('/', getAllAppUser);
 AppUserRouter.get('/:id', getSingleAppUser);
 AppUserRouter.post(

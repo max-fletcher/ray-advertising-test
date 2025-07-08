@@ -64,6 +64,14 @@ export function getOTPExpiry(): number {
   return Number(getEnvVar('OTP_EXPIRY'));
 }
 
+/**
+ * Paginate data.
+ * @param model Sequelize model.
+ * @param query Query object that contains the query logic.
+ * @param page Page number.
+ * @param pageSize How many records to fetch.
+ * @returns A promise that resolves to the paginated data.
+ */
 export const paginatedResults = async <T extends Model>(
   model: ModelStatic<T>,
   query: FindOptions<T>,
@@ -73,8 +81,9 @@ export const paginatedResults = async <T extends Model>(
   // Calculate offset based on page number and page size
   const offset = (page - 1) * pageSize;
 
-  // Clone the query object to avoid modifying the original
+  // Clone the query object to avoid modifying the original. Also delete attributes since "select" interferes with "count" query
   const totalCountQuery = { ...query };
+  delete totalCountQuery.attributes;
 
   // Find the total count
   const totalCount = (await model.count(totalCountQuery)) as unknown as number;
