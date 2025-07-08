@@ -3,14 +3,15 @@ import { getMimeTypeValidationMsg, imageMimeTypes } from './common.utils';
 import { deleteSingleFile, resolveFilePath } from './fileUploads';
 
 export const imageSchema = (validTypes = imageMimeTypes) =>
-  z.object({
+  z
+    .object({
       fieldname: z.string(),
       originalname: z.string(),
       encoding: z.string(),
       mimetype: z.string().refine(
         (val) => validTypes.includes(val),
         () => {
-          console.log({ validTypes });
+          // console.log({ validTypes });
           return {
             message: `Only ${getMimeTypeValidationMsg(
               validTypes,

@@ -2,18 +2,15 @@
 import { Request } from 'express';
 import fs from 'fs';
 import multer, { FileFilterCallback } from 'multer';
-import {
-  fieldsType,
-  fileFieldNameType,
-  formattedPathsType,
-} from 'types/file.types';
+import path from 'path';
+import { fieldsType, fieldType, formattedPathsType } from '../types/types/file.types';
 
 type DestinationCallback = (error: Error | null, destination: string) => void;
 type FileNameCallback = (error: Error | null, filename: string) => void;
 
 // FILEFIELDNAME(required), DEFAULT PATH = 'temp' & DEFAULT MAXSIZE = 30 MB
 export const multipleFileLocalUploader = (
-  fileFieldName: fileFieldNameType,
+  fileFieldName: fieldType,
   path = 'temp',
   maxSize = 31457280,
 ) => {
@@ -70,13 +67,12 @@ export const multipleFileLocalUploader = (
   // RETURN MULTER INSTANCE WITH NECESSARY OPTIONS
   return multer({
     storage: storage,
-    // limits: limits,
     fileFilter: additionalValidation,
   }).fields(fileFieldName);
 };
 
 export const rollbackMultipleFileLocalUpload = async (req: Request) => {
-  if (!Object.keys(req.files!).length) return;
+  if (!req.files || !Object.keys(req.files).length) return;
 
   // IF EXISTS/NOT EMPTY CHECK
   Object.values(req.files!).forEach(async (fields: fieldsType[]) => {
@@ -109,14 +105,14 @@ export const deleteMultipleFileLocal = async (
 
   filePaths.map(async (filePath) => {
     const tempFilePath =
-      'src/public/uploads/' +
+      'src/public/' +
       filePath.replace(
         (!process.env.FILE_BASE_URL || process.env.FILE_BASE_URL === ''
           ? req.protocol + '://' + req.get('host')
           : process.env.FILE_BASE_URL) + '/',
         '',
       );
-    // console.log(tempFilePath);
+    // console.log('tempFilePath', tempFilePath);
     if (fs.existsSync(tempFilePath)) await fs.unlinkSync(tempFilePath);
   });
 
@@ -124,55 +120,28 @@ export const deleteMultipleFileLocal = async (
 };
 
 export const multipleFileLocalFullPathResolver = (req: Request) => {
-  if (!Object.keys(req.files!).length) return;
+  if (!req.files || !Object.keys(req.files).length) return;
 
   const formatted_paths: formattedPathsType = {};
 
-  Object.entries(req.files!).map((element) => {
-    let paths: Array<string> = [];
-    element[1].map((fields: fieldsType) => {
-      // console.log('fields', fields);
-      paths = [
-        (!process.env.FILE_BASE_URL || process.env.FILE_BASE_URL === ''
-          ? req.protocol + '://' + req.get('host')
-          : process.env.FILE_BASE_URL) +
-          '/' +
-          fields.path
-            .substring(
-              fields.path.indexOf('\\') + 1,
-              fields.path.lastIndexOf('\\'),
-            )
-            .replace('public\\', '') +
-          '/' +
-          fields.filename,
-        ...paths,
-      ];
+  Object.entries(req.files).forEach(([fieldName, files]) => {
+    const paths = (files as Express.Multer.File[]).map((file) => {
+      // Make file path relative to `src/public` (no manual "uploads/")
+      const relativePath = path.relative(
+        path.resolve('src/public'),
+        file.path
+      );
+
+      const publicUrl =
+        process.env.FILE_BASE_URL && process.env.FILE_BASE_URL !== ''
+          ? process.env.FILE_BASE_URL
+          : `${req.protocol}://${req.get('host')}`;
+
+      return `${publicUrl}/${relativePath.replace(/\\/g, '/')}`;
     });
 
-    formatted_paths[element[0]] = paths;
+    formatted_paths[fieldName] = paths;
   });
 
   return formatted_paths;
 };
-
-// export const fullPathResolver = (req: Request, relPaths: any) => {
-//   let fullPaths: string[] = [];
-//   relPaths.map((relPath: any) => {
-//     console.log('relPath', relPath);
-//     fullPaths = [...fullPaths, (!process.env.FILE_BASE_URL || process.env.FILE_BASE_URL === ''
-//       ? req.protocol + '://' + req.get('host')
-//       : process.env.FILE_BASE_URL) +
-//       '/' +
-//       relPath.path
-//         .substring(
-//           relPath.path.indexOf('\\') + 1,
-//           relPath.path.lastIndexOf('\\'),
-//         )
-//         .replace('public\\', '')
-//         .replace('\\', '/') +
-//       '/' +
-//       relPath.filename] ;
-//   })
-
-//   return fullPaths;
-// };

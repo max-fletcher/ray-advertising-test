@@ -1,7 +1,10 @@
-import ShortUniqueId from 'short-unique-id';
+// import ShortUniqueId from 'short-unique-id';
+import { v7 as uuidv7 } from 'uuid';
 
-const generateId = () => {
-  const uId = new ShortUniqueId({ length: 10 });
-  const id = uId.rnd();
-  return id;
+export const generateId = () => {
+  return uuidv7();
 };
+
+export function generateOtp() {
+  return Math.floor(100000 + Math.random() * 900000).toString();
+}

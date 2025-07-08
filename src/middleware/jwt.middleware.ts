@@ -3,9 +3,9 @@ import { sign, TokenExpiredError, verify } from 'jsonwebtoken';
 import { AdminUserRepository } from '../db/rdb/repositories/admin-user.repository';
 import { AppUserPayload, UserPayload } from '../schema/token-payload.schema';
 import {
-  AppAuthenticatedRequest,
-  AuthenticatedRequest,
-} from '../types/authenticate.type';
+  IAuthenticatedRequest,
+  IAuthenticatedRequest,
+} from '../types/interfaces/authenticate.interface';
 import { getEnvVar } from '../utils/common.utils';
 import { AppUserRepository } from '../db/rdb/repositories/app-user.repository';
 import { datetimeYMDHis } from '../utils/datetime.utils';
@@ -19,7 +19,7 @@ export class JwtMiddleware {
   }
 
   async verifyToken(
-    req: AuthenticatedRequest,
+    req: IAuthenticatedRequest,
     res: Response,
     next: NextFunction,
   ) {
@@ -70,7 +70,7 @@ export class JwtMiddleware {
   }
 
   async verifyAppUserToken(
-    req: AppAuthenticatedRequest,
+    req: IAuthenticatedRequest,
     res: Response,
     next: NextFunction,
   ) {
@@ -111,7 +111,7 @@ export class JwtMiddleware {
   }
 
   async optionalVerifyAppUserToken(
-    req: AppAuthenticatedRequest,
+    req: IAuthenticatedRequest,
     res: Response,
     next: NextFunction,
   ) {

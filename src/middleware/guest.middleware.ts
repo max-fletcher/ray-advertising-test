@@ -1,8 +1,8 @@
 import { NextFunction, Response } from 'express';
-import { AppAuthenticatedRequest } from '../types/authenticate.type';
+import { IAuthenticatedRequest } from '../types/interfaces/authenticate.interface';
 import { AppUserRepository } from '../db/rdb/repositories/app-user.repository';
 
-export const appUserGuestMiddleware = async (req: AppAuthenticatedRequest, res: Response, next: NextFunction) => {
+export const appUserGuestMiddleware = async (req: IAuthenticatedRequest, res: Response, next: NextFunction) => {
   const userRepo = new AppUserRepository();
   const guest = await userRepo.userIsGuest(req.user!.id);
 

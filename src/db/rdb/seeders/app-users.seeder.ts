@@ -1,4 +1,3 @@
-import { CurrencyData } from 'types/currency.type';
 import { hashPassword } from '../../../utils/password.utils';
 
 const seedAppUsers = async () => {
@@ -6,25 +5,28 @@ const seedAppUsers = async () => {
     const appUsers = [
       {
         id: 'usr_56913465891340',
-        username: 'User 1',
         email: 'user1@mail.com',
         password: await hashPassword('password'),
+        firstName: 'User',
+        lastName: '1',
         createdAt: new Date(),
         updatedAt: new Date(),
       },
       {
         id: 'usr_56913465891350',
-        username: 'User 2',
         email: 'user2@mail.com',
         password: await hashPassword('password'),
+        firstName: 'User',
+        lastName: '2',
         createdAt: new Date(),
         updatedAt: new Date(),
       },
       {
         id: 'usr_56913465891360',
-        username: 'User 3',
         email: 'user3@mail.com',
         password: await hashPassword('password'),
+        firstName: 'User',
+        lastName: '3',
         createdAt: new Date(),
         updatedAt: new Date(),
       },
