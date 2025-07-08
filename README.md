@@ -32,8 +32,19 @@ Welcome to the **Ray Advertising Test**! We appreciate your interest in contribu
      yarn install
      ```
 
-3. **Review Documentation**:
-   - Before making any changes, please review the existing documentation to understand the project structure, coding standards, and dependencies.
+3. **Running the project**:
+   - Use the following command to run the project in dev mode
+    ```bash
+      yarn run dev
+    ```
+    - To build the project before running production mode, use 
+    ```bash
+      yarn build
+    ```
+    - To run in production mode, use
+    ```bash
+      yarn run start:prod
+    ```
 
 ## How to Contribute
 
