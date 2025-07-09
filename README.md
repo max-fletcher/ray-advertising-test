@@ -36,8 +36,11 @@ Welcome to the **Ray Advertising Test**! We appreciate your interest in contribu
      yarn install
      ```
 
-3. **Running the project**:
-   - Use the following command to run the project in dev mode
+3. **Set environment variables**:
+    - Make a .env and set env variables. Refer to .env.example for what variables are needed
+
+4. **Running the project**:
+    - Use the following command to run the project in dev mode
     ```bash
       yarn run dev
     ```
