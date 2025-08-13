@@ -39,7 +39,7 @@ export async function getAllAppUser(req: IAuthenticatedRequest, res: Response) :
       data: appUsers,
     });
   } catch (error) {
-    // console.log('getAllAppUser', error)
+    console.log('getAllAppUser', error)
     if (error instanceof CustomException) {
       return res.status(error.statusCode).json({
         message: error.message,
@@ -78,7 +78,7 @@ export async function getSingleAppUser(req: IAuthenticatedRequest, res: Response
       data: appUser,
     });
   } catch (error) {
-    // console.log('getSingleAllAppUser', error)
+    console.log('getSingleAllAppUser', error)
     if (error instanceof CustomException) {
       return res.status(error.statusCode).json({
         message: error.message,
@@ -114,7 +114,7 @@ export async function createAppUser(req: IAuthenticatedRequest, res: Response) :
 
     throw new CustomException('Something went wrong! Please try again.', 500)
   } catch (error) {
-    // console.log('createAppUser', error)
+    console.log('createAppUser', error)
     if (error instanceof CustomException) {
       return res.status(error.statusCode).json({
         message: error.message,
@@ -161,7 +161,7 @@ export async function updateAppUser(req: IAuthenticatedRequest, res: Response) :
 
     throw new CustomException('Something went wrong! Please try again.', 500)
   } catch (error) {
-    // console.log('updateAppUser', error);
+    console.log('updateAppUser', error);
     if (error instanceof CustomException) {
       return res.status(error.statusCode).json({
         message: error.message,
@@ -205,7 +205,7 @@ export async function deleteAppUser(req: IAuthenticatedRequest, res: Response) :
 
     throw new CustomException('Something went wrong! Please try again.', 500)
   } catch (error) {
-    // console.log('deleteAppUser', error);
+    console.log('deleteAppUser', error);
     if (error instanceof CustomException) {
       return res.status(error.statusCode).json({
         message: error.message,
