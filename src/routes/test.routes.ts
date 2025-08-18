@@ -1,8 +1,8 @@
 import express, { Request, Response } from 'express';
-// import { MigrationService } from '../services/migration.services';
+import { MigrationService } from '../services/migration.services';
 import { NodeCacheService } from '../services/node-cache.services';
 
-// const migrationService = new MigrationService();
+const migrationService = new MigrationService();
 const nodeCacheService = new NodeCacheService();
 // const redisService = new RedisService();
 
@@ -25,31 +25,31 @@ testRouter.get('/hello', (req: Request, res: Response) => {
 //   }
 // });
 
-// testRouter.get('/db/migrate', async (req: Request, res: Response) => {
-//   try {
-//     await migrationService.migrate();
-//     res.send({
-//       message: 'success',
-//     });
-//   } catch (e) {
-//     res.status(500).send({
-//       message: `${e}`,
-//     });
-//   }
-// });
+testRouter.get('/db/migrate', async (req: Request, res: Response) => {
+  try {
+    await migrationService.migrate();
+    res.send({
+      message: 'success',
+    });
+  } catch (e) {
+    res.status(500).send({
+      message: `${e}`,
+    });
+  }
+});
 
-// testRouter.get('/db/refresh-migration', async (req: Request, res: Response) => {
-//   try {
-//     await migrationService.refreshMigration();
-//     res.send({
-//       message: 'success',
-//     });
-//   } catch (e) {
-//     res.status(500).send({
-//       message: `${e}`,
-//     });
-//   }
-// });
+testRouter.get('/db/refresh-migration', async (req: Request, res: Response) => {
+  try {
+    await migrationService.refreshMigration();
+    res.send({
+      message: 'success',
+    });
+  } catch (e) {
+    res.status(500).send({
+      message: `${e}`,
+    });
+  }
+});
 
 // testRouter.get('/db/seed-app-user', async (req: Request, res: Response) => {
 //   try {
