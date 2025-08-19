@@ -60,7 +60,8 @@ const server = () => {
     // List down all routes in the terminal on startup
     expressListRoutes(app, { prefix: '/' });
 
-  app.listen(Number(PORT), "0.0.0.0", () => {
+  // app.listen(Number(PORT), "0.0.0.0", () => {
+  app.listen(Number(PORT), () => {
     console.log(`Worker ${process.pid} started on port ${PORT}`);
   });
   } catch (error) {
